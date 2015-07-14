@@ -1,0 +1,169 @@
+* { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+
+html {
+  height: 100%;
+}
+body {
+  padding: 0;
+  margin: 0;
+  font-family: "HelveticaNeueLight", "HelveticaNeue-Light", "Helvetica Neue Light", "HelveticaNeue", "Helvetica Neue", 'TeXGyreHerosRegular', "Helvetica", "Tahoma", "Geneva", "Arial", sans-serif; 
+  font-weight: 300;
+  background: #31591E url(../images/background.png) 0 0 no-repeat;
+  background-size: cover;
+  color: #333;
+}
+footer {
+  font-size: 0.75em;
+  color: silver;
+  position: fixed;
+  bottom: 1em;
+  left: 1em;
+}
+footer a {
+  color: #f80;
+}
+header {
+  margin: 2em 0;
+}
+header.title {
+  margin: 4em 0;
+}
+h1, h2, h3 {
+  margin: 0;
+  text-rendering: optimizeLegibility;
+}
+h1 {
+  font-family: 'Raleway';
+  font-weight: 200;
+  color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  font-size: 3em;
+}
+header .logo {
+  display: block;
+  margin: 1em auto;
+  width: 240px;
+  height: 206px;
+  opacity: 0.7;
+}
+input, button, a.button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: 1px solid #ddd;
+  color: #333;
+  font-size: 1em;
+  padding: .7em 1em;
+  margin-bottom: 1em;
+}
+input[type=button], button, a.button {
+  background: #e6e6e6;
+  text-shadow: 0 1px 0 #f3f3f3;
+  width: 120px;
+  min-height: 58px;
+  font-size: 1.2em;
+}
+#main, #login {
+  max-width: 600px;
+  margin: 1em auto 3em;
+  padding: 1em 1em;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 3px 7px 10px rgba(0, 0, 0, 0.5)
+}
+#login p {
+  font-size: 1.6em;
+  margin-top: 0.5em;
+}
+#login p span {
+  color: #f80;
+}
+#login a.button {
+  display: block;
+  margin: 1.5em auto;
+  text-decoration: none;
+  background-color: #555;
+  color: #fff;
+  text-shadow: #222 0px 1px 0px;
+  border-radius: 8px;
+  text-align: center;
+  width: 50%;
+}
+#presence {
+  line-height: 2em; 
+}
+#chat input[type=text] {
+  font-size: 1.2em;
+  width: calc(100% - 125px);
+  height: 58px;
+}
+#output p {
+  min-height: 64px;
+}
+#output strong {
+  line-height: 1.5em;
+}
+#output span {
+  font-size: 1.2em;
+}
+#presence {
+  color: #ce1126;
+}
+.me {
+  line-height: 48px;
+  font-size: 1.2em;
+}
+.me .avatar {
+  width: 48px;
+  height: 48px;
+}
+.avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 0;
+  background-color: #aaa;
+  display: inline-block;
+  float: left;
+  margin-right: 10px;
+}
+section[section] {
+  display: none; /* for IE < 11 */
+}
+.poof {
+  animation: poof 2.5s ease-in 0s 1;
+}
+.join {
+  color: green;
+}
+.leave, .timeout {
+  color: #ce1126;
+}
+#action {
+  opacity: 0;
+}
+@keyframes poof { from {opacity: 1;} to {opacity: 0;}  }
+
+/*!
+ *  Font Awesome 4.2.0 by @davegandy - http://fontawesome.io - @fontawesome
+ *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
+ */
+/* FONT PATH
+ * -------------------------- */
+@font-face {
+  font-family: 'FontAwesome';
+  src: url('../fonts/fontawesome-webfont.woff');
+  font-weight: normal;
+  font-style: normal;
+}
+.fa {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: 1.3em;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin-left: 10px;
+}
+.fa-github::before {
+    content: "\f09b";
+}
