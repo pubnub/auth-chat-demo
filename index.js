@@ -43,7 +43,7 @@
   passport.use(new GitHubStrategy({
       clientID: GITHUB_CLIENT_ID,
       clientSecret: GITHUB_CLIENT_SECRET,
-      callbackURL: "/callback"
+      callbackURL: "https://pubnub-pam-chat.herokuapp.com/callback"
     },
     function(accessToken, refreshToken, profile, done) {
       var user = profile;
