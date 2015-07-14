@@ -17,7 +17,8 @@
       subscribe_key: 'sub-c-981faf3a-2421-11e5-8326-0619f8945a4f',
       publish_key: 'pub-c-351c975f-ab81-4294-b630-0aa7ec290c58',
       uuid: user.username,
-      auth_key: user.accessToken
+      auth_key: user.accessToken,
+      ssl: true
   });
 
 
