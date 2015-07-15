@@ -1,18 +1,14 @@
 (function() {
 
-  // Setting up web
+  var config = require('./config');
   var express = require('express');
   var bodyParser = require('body-parser');
   var cookieParser = require('cookie-parser');
   var session = require('express-session');
   var ejs = require('ejs');
   var util = require('util');
-
   var passport = require('passport');
   var GitHubStrategy = require('passport-github2').Strategy;
-
-  var GITHUB_CLIENT_ID = '614733545a5a4294d951';
-  var GITHUB_CLIENT_SECRET = '486e1739d614e4066499c8f28a07d613bd1dade5';
 
   var app = express();
 
@@ -41,9 +37,9 @@
   });
 
   passport.use(new GitHubStrategy({
-      clientID: GITHUB_CLIENT_ID,
-      clientSecret: GITHUB_CLIENT_SECRET,
-      callbackURL: "https://pubnub-pam-chat.herokuapp.com/callback"
+      clientID: config.auth.github.client_id,
+      clientSecret: config.auth.github.client_secret,
+      callbackURL: '/callback'
     },
     function(accessToken, refreshToken, profile, done) {
       var user = profile;
@@ -52,14 +48,6 @@
     }
   ));
 
-
-  // Crypto
-  // var crypto = require('crypto')
-
-  // var sha1sum = function(str){
-  //   return crypto.createHash('sha1').update(str).digest('hex');
-  // }
-
   var pubnub = require('pubnub');
   var channel = 'pam-chat-demo';
   var channelPres = 'pam-chat-demo-pnpres';
@@ -67,14 +55,14 @@
   pubnub = pubnub.init({
     subscribe_key: 'sub-c-981faf3a-2421-11e5-8326-0619f8945a4f',
     publish_key: 'pub-c-351c975f-ab81-4294-b630-0aa7ec290c58',
-    secret_key: 'sec-c-M2U0N2Q2MzktNDI3Yi00ODA5LTkwMjAtYzc1NmM2YTAxMDBl',
-    auth_key: 'nyancat-nyan-nyan-nyan',
+    secret_key: config.pubnub.secret_key,
+    auth_key: config.pubnub.auth_key,
     ssl: true
   });
 
   pubnub.grant({ 
     channel: channel + ',' + channelPres, 
-    auth_key: 'nyancat-nyan-nyan-nyan', 
+    auth_key: config.pubnub.auth_key, 
     read: true, 
     write: true, 
     callback: function(m){console.log(m);} ,
@@ -137,7 +125,7 @@
   });
 
   var server = app.listen(process.env.PORT || 3000, function(){
-    console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+    console.log('Express server listening on port %d in %s mode', this.address().port, app.settings.env);
   });
 
 })();
