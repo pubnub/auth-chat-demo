@@ -10,7 +10,7 @@ Once a user login, the user is given a auth token from OAuth. In this demo, the 
 
 ## What is PubNub Access manager?
 
-[PubNub Access Manager](https://www.pubnub.com/docs/web-javascript/pam-security) extends PubNub's existing security framework by allowing developers to create and enforce secure access to channels throughout the PubNub Real Time Network. What PAM does are:
+[PubNub Access Manager](https://www.pubnub.com/docs/web-javascript/pam-security) extends PubNub's existing security framework by allowing developers to create and enforce secure access to channels throughout the PubNub Real Time Network. What Access Manager does are:
 
 - Syndicate streams by providing authorization to users to read/write messages to one or more channels
 - Grant/revoke permissions for your real time streams at the user/device, channel or key level
