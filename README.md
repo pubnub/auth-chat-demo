@@ -24,12 +24,10 @@ You need to run this demo on your own machine. Make sure your machine has [Node.
 
 1. Fork or download this repo to your local machine.
 2. Install dependencies: `$ npm install`
-3. Set up your app on [GitHub Developer applications](https://github.com/settings/applications/) (OAuth)
+3. Set up your app on [GitHub Developer applications](https://github.com/settings/applications/) (for OAuth)
 4. Include your own `config.js` file (See below)
 5. Run code: `$ node index.js`
 6. Open the web client at [http://localhost:3000](http://localhost:3000)
-7. Login using your GitHub account
-8. Chat!
 
 
 ### config.js
@@ -46,7 +44,7 @@ module.exports = {
   },
   pubnub: {
     secret_key: 'sec-c-M2U0NDI3....', // get it from PubNub Admin portal
-    auth_key: '...' // anything you want
+    auth_key: '...' // any string you want
   }
 };
 ```
