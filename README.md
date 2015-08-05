@@ -1,6 +1,6 @@
 # PubNub Access manager Chat Demo
 
-[Try the live demo!](https://pubnub-pam-chat.herokuapp.com/)
+[Try the live demo!](https://pubnub-auth-chat.herokuapp.com/)
 (You need a GitHub ccount to login to the chat demo!)
 
 This simple demo is written is JavaScript for both client (JavaScript) and server (Node.js) to demonstrate how PubNub Access manager works and how you can implement in your app.
