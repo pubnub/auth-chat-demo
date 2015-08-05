@@ -25,7 +25,7 @@ You need to run this demo on your own machine. Make sure your machine has [Node.
 1. Fork or download this repo to your local machine.
 2. Install dependencies: `$ npm install`
 3. Set up your app on [GitHub Developer applications](https://github.com/settings/applications/) (for OAuth)
-4. Include your own `config.js` file (See below)
+4. Include your own `config.js` file and save it at root of your app dir (See below)
 5. Run code: `$ node index.js`
 6. Open the web client at [http://localhost:3000](http://localhost:3000)
 
