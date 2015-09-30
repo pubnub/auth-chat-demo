@@ -17,6 +17,11 @@ Once a user login, the user is given a auth token from OAuth. In this demo, the 
 - Works with Auth tokens from any existing authentication system: Facebook Connect, Twitter, Google, LDAP, or homegrown solutions
 
 
+### Message Verification with ECC
+
+Messages are encrypted with Elliptic curve cryptography (ECC) asymmetric algorithm, to avoid some trolls to spoof users.
+
+To learn more about the digital signature, read [Chat Security: User Identification with Digital Signature Message Verification](http://www.pubnub.com/blog/chat-security-user-identification-with-digital-signature-message-verification/) on PubNub Blog.
 
 ## Running this demo locally
 
