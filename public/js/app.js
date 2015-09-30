@@ -4,14 +4,16 @@
     return;
   } 
 
-  var output = PUBNUB.$('output'), 
-      input = PUBNUB.$('input'), 
-      avatar = PUBNUB.$('avatar'),
-      presence = PUBNUB.$('presence'),
-      action = PUBNUB.$('action'),
-      send = PUBNUB.$('send');
+  var output = document.getElementById('output'), 
+      input = document.getElementById('input'), 
+      avatar = document.getElementById('avatar'),
+      presence = document.getElementById('presence'),
+      action = document.getElementById('action'),
+      send = document.getElementById('send');
 
-  var channel = 'pam-chat-demo';
+  var channel = 'auth-ecc-chat';
+
+  var keysCache = {};
   
   var pubnub = PUBNUB.init({
       subscribe_key: 'sub-c-981faf3a-2421-11e5-8326-0619f8945a4f',
@@ -22,10 +24,47 @@
   });
 
 
-  function displayOutput(m) {
-    if(!m) return;
-    if(typeof(m.text) === 'undefined') return;
-    return '<p><img src="'+ m.avatar +'" class="avatar"><strong>' +  m.uuid + '</strong><br><span>' + m.text + '</span></p>'
+  function displayOutput(message) {
+    if(!message) return;
+    if(typeof(message.text) === 'undefined') return;
+
+    var html = '';
+
+    if ('userid' in message && message.userid in keysCache) {
+
+      var signature = message.signature;
+
+      delete message.signature;
+
+      var result = ecc.verify(keysCache[message.userid].publicKey, signature, JSON.stringify(message));
+
+      if(result) {
+        html = '<p><img src="'+ keysCache[message.userid].avatar +'" class="avatar"><strong>' +  keysCache[message.userid].username + '</strong><br><span>' + message.text + '</span></p>';
+      } else {
+        html = '<p><img src="images/troll.png" class="avatar"><strong></strong><br><em>A troll tried to spoof '+ keysCache[message.userid].username +' (but failed).</em></p>';
+      } 
+
+      output.innerHTML = html + output.innerHTML;
+
+    } else {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', '/user/' + message.userid, true);
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+          var res = JSON.parse(xhr.responseText);
+
+          keysCache[message.userid] = {
+            'publicKey': res.publicKey,
+            'username': res.username,
+            'displayName': res.displayName,
+            'avatar': res.avatar_url,
+            'id': res.id
+          }
+          displayOutput(message);
+        }
+      };
+      xhr.send(null); 
+    }
   }
 
   function getHistory() {
@@ -34,7 +73,7 @@
       count    : 30,
       callback : function(messages) {
         messages[0].forEach(function(m){ 
-          output.innerHTML = displayOutput(m) + output.innerHTML;
+          displayOutput(m);
         });
       }
     });
@@ -51,13 +90,13 @@
       console.log('reconnecting to pubnub');
     },
     callback: function(m) {
-      output.innerHTML = displayOutput(m) + output.innerHTML;
+      displayOutput(m);
     },
     presence: function(m){
-      if(m.occupancy > 1) {
-        presence.textContent = m.occupancy + ' people online';
+      if(m.occupancy === 1) {
+        presence.textContent = m.occupancy + ' person online';
       } else {
-        presence.textContent = 'Nobody else is online';
+        presence.textContent = m.occupancy + ' people online';
       }
       if((m.action === 'join') || (m.action === 'timeout') || (m.action === 'leave')){
         var status = (m.action === 'join') ? 'joined' : 'left';
@@ -70,10 +109,17 @@
   });
 
   function post() {
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/', true);
-    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded'); 
-    xhr.send('text='+input.value);
+    var safeText = input.value.replace(/\&/g, '&amp;').replace( /</g,  '&lt;').replace(/>/g,  '&gt;');
+    var message = { text: safeText, userid: user.id };
+
+    var signature = ecc.sign(user.eccKey, JSON.stringify(message));
+    message['signature'] = signature;
+
+    pubnub.publish({
+      channel: channel,
+      message: message
+    });
+    
     input.value = '';
   }
 

@@ -1,1 +1,5 @@
 .DS_Store
+Procfile
+node_modules
+config.js
+persist

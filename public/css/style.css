@@ -102,7 +102,7 @@ input[type=button], button, a.button {
 #output strong {
   line-height: 1.5em;
 }
-#output span {
+#output span. #output em {
   font-size: 1.2em;
 }
 #presence {
