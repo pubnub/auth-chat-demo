@@ -11,7 +11,7 @@
       action = document.getElementById('action'),
       send = document.getElementById('send');
 
-  var channel = 'auth-ecc-chat';
+  var channel = 'auth-ecc-chat-demo';
 
   var keysCache = {};
   

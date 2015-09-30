@@ -65,8 +65,8 @@ passport.use(new GitHubStrategy({
 ));
 
 var pubnub = require('pubnub');
-var channel = 'auth-ecc-chat';
-var channelPres = 'auth-ecc-chat-pnpres';
+var channel = 'auth-ecc-chat-demo';
+var channelPres = 'auth-ecc-chat-demo-pnpres';
 
 pubnub = pubnub.init({
   subscribe_key: 'sub-c-981faf3a-2421-11e5-8326-0619f8945a4f',

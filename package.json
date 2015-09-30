@@ -1,5 +1,5 @@
 {
-  "name": "pam-chat-demo",
+  "name": "auth-chat-demo",
   "version": "0.0.1",
   "description": "A simple demo using PubNub Access Manager to enforce a secure channel",
   "main": "index.js",
