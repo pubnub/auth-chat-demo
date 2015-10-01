@@ -1,4 +1,4 @@
-# PubNub Access manager Chat Demo
+# PubNub Access Manager Chat Demo
 
 [Try the live demo!](https://pubnub-auth-chat.herokuapp.com/)
 (You need a GitHub ccount to login to the chat demo!)
@@ -8,7 +8,7 @@ This simple demo is written is JavaScript for both client (JavaScript) and serve
 Once a user login, the user is given a auth token from OAuth. In this demo, the token is used as an `auth_key` that the "admin" can reference to grant a read/write permission to the user.
 
 
-## What is PubNub Access manager?
+## What is PubNub Access Manager?
 
 [PubNub Access Manager](https://www.pubnub.com/docs/web-javascript/pam-security) extends PubNub's existing security framework by allowing developers to create and enforce secure access to channels throughout the PubNub Real Time Network. What Access Manager does are:
 
@@ -23,7 +23,7 @@ Messages are encrypted with Elliptic curve cryptography (ECC) asymmetric algorit
 
 To learn more about the digital signature, read [Chat Security: User Identification with Digital Signature Message Verification](http://www.pubnub.com/blog/chat-security-user-identification-with-digital-signature-message-verification/) on PubNub Blog.
 
-## Running this demo locally
+## Running this Demo Locally
 
 You need to run this demo on your own machine. Make sure your machine has [Node.js](https://nodejs.org/) installed.
 
@@ -37,7 +37,7 @@ You need to run this demo on your own machine. Make sure your machine has [Node.
 
 ### config.js
 
-Create a file with  your own credintials:
+Create a file with your own credintials:
 
 ```javascript
 module.exports = {
