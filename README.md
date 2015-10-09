@@ -23,11 +23,17 @@ Messages are encrypted with Elliptic curve cryptography (ECC) asymmetric algorit
 
 To learn more about the digital signature, read [Chat Security: User Identification with Digital Signature Message Verification](http://www.pubnub.com/blog/chat-security-user-identification-with-digital-signature-message-verification/) on PubNub Blog.
 
-## Running this Demo Locally
+### User Database
 
-You need to run this demo on your own machine. Make sure your machine has [Node.js](https://nodejs.org/) installed.
+For this demo, each user's public key (for ECC) is stored in PubNub history for its convenience, however in a real-life scenario, you probably want to store the info in your database. 
 
-1. Fork or download this repo to your local machine.
+
+
+## Running this Demo on Your Machine Locally
+
+If you want to run this demo on your own machine. Make sure that [Node.js](https://nodejs.org/) is installed.
+
+1. Fork or download this repo
 2. Install dependencies: `$ npm install`
 3. Set up your app on [GitHub Developer applications](https://github.com/settings/applications/) (for OAuth)
 4. Include your own `config.js` file and save it at root of your app dir (See below)
