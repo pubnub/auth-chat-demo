@@ -8,8 +8,9 @@ var util = require('util');
 var passport = require('passport');
 var GitHubStrategy = require('passport-github2').Strategy;
 var ecc = require('eccjs');
-var storage = require('node-persist');
+var pubnub = require('pubnub');
 
+var storage = require('node-persist');
 storage.initSync();
 
 var app = express();
@@ -31,20 +32,87 @@ app.use(passport.session());
 
 
 passport.serializeUser(function(user, done) {
+  // Reading or generating a publicKey for the user
+
   var cachedUser = storage.getItem('user_' + user.id);
 
   if (cachedUser && 'secretKey' in cachedUser && 'publicKey' in cachedUser) {
     user.eccKey = cachedUser.eccKey;
     user.publicKey = cachedUser.publicKey;
-  } else {
-    var keys = ecc.generate(ecc.SIG_VER);
-    user.eccKey = keys.sig;
-    user.publicKey = keys.ver;
+
+    console.log('========');
+    console.log('cachedUser.eccKey');
+
+    done(null, user.id);
+
+  } else { // if not in local storage, get from PubNub "DB"
+    console.log('========');
+    console.log('Getting from history...');
+
+    // Using a PubNub channel (separated from the chat channel) as a DB
+
+    var dbChannel = 'user_' + user.id;
+
+    var db = pubnub.init({
+      subscribe_key: 'sub-c-981faf3a-2421-11e5-8326-0619f8945a4f',
+      publish_key: 'pub-c-351c975f-ab81-4294-b630-0aa7ec290c58',
+      secret_key: config.pubnub.secret_key,
+      auth_key: config.pubnub.auth_key,
+    });
+
+    db.grant({ 
+      channel: dbChannel, 
+      auth_key: config.pubnub.auth_key, 
+      read: true, 
+      write: true, 
+      callback: function(m){console.log(m);} ,
+      error: function(err){console.log(err);}
+    });
+
+    db.subscribe({
+      channel: dbChannel,
+      callback: function(m) {console.log(m)},
+      connect: function() {
+        db.history({
+          channel: dbChannel,
+          callback: function(m) {
+       
+            if(m[0].length > 0) {
+              console.log('========');
+              console.log('User data found in history. No new key is generated.');
+
+              user.eccKey = m[0][0].eccKey;
+              user.publicKey = m[0][0].publicKey;
+              storage.setItem('user_' + user.id, user);
+              done(null, user.id);
+
+            } else { // the user info is never stored in "DB" (history) before
+
+              console.log('========');
+              console.log('Nothing in history. Publishing new keys');
+
+              var keys = ecc.generate(ecc.SIG_VER);
+              user.eccKey = keys.sig;
+              user.publicKey = keys.ver;
+              storage.setItem('user_' + user.id, user);
+
+              db.publish({
+                channel: dbChannel,
+                message: user,
+                callback: function() {
+                  done(null, user.id);
+                }
+              });
+            }
+
+
+          }
+        });
+      }
+    });
   }
 
-  storage.setItem('user_' + user.id, user);
-
-  done(null, user.id);
+  
 });
 
 passport.deserializeUser(function(id, done) {
@@ -64,9 +132,8 @@ passport.use(new GitHubStrategy({
   }
 ));
 
-var pubnub = require('pubnub');
-var channel = 'auth-ecc-chat-demo';
-var channelPres = 'auth-ecc-chat-demo-pnpres';
+var channel = 'am-ecc-chat';
+var channelPres = channel + '-pnpres';
 
 pubnub = pubnub.init({
   subscribe_key: 'sub-c-981faf3a-2421-11e5-8326-0619f8945a4f',
@@ -108,7 +175,6 @@ app.get('/', function (req, res) {
 });
 
 app.get('/user/:id', function (req, res) {
-
   if(req.user) {
     try {
       var id = req.params.id;

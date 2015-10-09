@@ -11,7 +11,7 @@
       action = document.getElementById('action'),
       send = document.getElementById('send');
 
-  var channel = 'auth-ecc-chat-demo';
+  var channel = 'am-ecc-chat';
 
   var keysCache = {};
   
@@ -69,9 +69,9 @@
 
   function getHistory() {
     pubnub.history({
-      channel  : channel,
-      count    : 30,
-      callback : function(messages) {
+      channel: channel,
+      count: 30,
+      callback: function(messages) {
         messages[0].forEach(function(m){ 
           displayOutput(m);
         });
